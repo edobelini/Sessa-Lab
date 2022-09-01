@@ -1,0 +1,11 @@
+# proj parameters
+RAWDATA: "/beegfs/scratch/ric.broccoli/ric.broccoli/Epigenomic_SET"
+RUN_ID: "Epigenomic_SET" # "RUN_id"
+# genome
+Genome: "hg38" # To be chosen based on dataset
+chrom_sizes: "/beegfs/scratch/ric.broccoli/ric.broccoli/Genomes/hg38/hg38.chrom.sizes" #To be chosen based on dataset
+# trimming
+adapters: "/beegfs/scratch/ric.broccoli/ric.broccoli/adapters/NexteraPE-PE.fa" #To be chosen based on dataset
+# peaks
+genome_size_bp: 3209286105 # To be chosen based on dataset
+peaks_qvalue: 0.01
