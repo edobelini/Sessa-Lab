@@ -44,28 +44,47 @@
 <!-- ABOUT THE LAB -->
 ## About The Lab
 
-Our lab has a strong interest in developing novel technologies in stem cells, genetic cell reprogramming and CRISPR/Cas9 gene editing for better modeling and treating neurological disorders. Patient’s derived iPS cells (iPSCs) offer a superior cellular model to recapitulate the key pathophysiological defects underlying the disease. In addition, CRISPR/Cas9 gene-editing provides a fast and efficient system to prove the direct association between a gene mutation and a specific cellular trait. The group has established numerous strategies for direct cell reprogramming to generate induced neuronal and glial cells for accelerating cellular modeling of human disorders. Moreover, we have established iPSCs from patients suffering from various diseases including Dravet, Rett and ASD syndromes, NBIA and Parkinson’s disease. CRISPR/Cas9 gene editing is a crucial tool in the lab to generate isogenic control iPSCs or to introduce targeted gene mutations. Lately, we have conceived and validated new approaches for correcting mutated genes or modulating their expression by CRISPR technology in vitro and in vivo. To vehiculate these tools in the brain and set up strategies of in vivo gene-therapy, this lab is producing new variants of adeno-associated viruses (AAV) that combined high targeting efficiency, tissue spreading and safety.
+Our lab has a strong interest in developing novel technologies in stem cells, genetic cell reprogramming and CRISPR/Cas9 gene editing for better modeling and treating neurological disorders. Patient’s derived iPS cells (iPSCs) offer a superior cellular model to recapitulate the key pathophysiological defects underlying the disease. In addition, CRISPR/Cas9 gene-editing provides a faster and efficient system to prove the direct association between a gene mutation and a specific cellular trait. The group has established numerous strategies for direct cell reprogramming to generate induced neuronal and glial cells for accelerating cellular modeling of human disorders. Moreover, we have established iPSCs from patients suffering from various diseases including Dravet, Rett and ASD syndromes, NBIA and Parkinson’s disease. Therefore, CRISPR/Cas9 gene editing is a crucial tool in the group to generate isogenic control iPSCs or to introduce targeted gene mutations. Lately, we have conceived and validated new approaches for correcting mutated genes or modulating their expression by CRISPR technology both, in vitro and in vivo. Moreover, we are investing in the development of new AAVs variants that combine high targeting efficiency, tissue spreading, and safety to deliver these tools into the brain and develop strategies for in vivo gene therapy.
 
 <!-- people -->
 ## People
 <ul>
-  <li> Alessandro Sessa </p>
+  <li> <a href="https://research.hsr.it/en/divisions/neuroscience/stem-cells-and-neurogenesis/alessandro-sessa.html">Alessandro Sessa</a> </p>
 <p align="center">
-<img src="https://lh4.googleusercontent.com/CbldvbQ7_euzbNgWBFJKVrfk_RSMI9stVjr7w6UTs7rjt5tObjcbyeuf2k51n6plsbfVOzqw_4JCgCDzIiarJivWcFc14o4eNiLBFzUdKXvRwjHyW8YWQwINaffJk48W6Q=w1280" width="300" height="300" /> </p> 
-</p> AS is within the group since 2005. Under Vania’s supervision, he obtained the PhD in Molecular Medicine in 2008. During the years, he has work on the genetic and epigenetic factors that settle the development of the brain spanning from the importance of specific-cell populations, to the role of molecular features and pathways. More recently, as staff scientist and team leader, he focused his research in (i) modeling rare diseases aiming to unravel their basis, and (ii) developing tools to intercept pathogenic transformations.
+<img src="photo/ale.png" width="300" height="300" /> </p> 
+</p> 
+Alessandro is within the group since 2005. Under Vania’s supervision, he obtained a Ph.D. in Molecular Medicine in 2008. Over the years, he has studied genetic and epigenetic factors that influence brain development, ranging from specific cell populations to molecular pathways. Recently, he has worked on modeling rare diseases and developing tools to intercept pathogenic transformations as a staff scientist and team leader.
 </p>
 </li>
-  <li>Mattia Zaghi <p align="center">
-<img src="photo/zaghi.jpg" width="300" height="350" /> </p>  Mattia Zaghi has obtained is BSC and MSC degree in biotechnology at Vita-Salute San Raffaele University. During his master, he has joined Dr. Alessandro Sessa's group in VB Unit focusing his scientific interest in characterizing the epigenetic bases of neuro-developmental disorders such as intellectual disabilities and autism. He then enrolled in the molecular medicine PhD at Vita-Salute San Raffaele university and completed it, with a thesis about the role of SETBP1-SET protein axes in controlling chromatin structure and gene expression during neural development, in the context of rare sindrome Schinzel-Giedion.
+  <li><a href="zaghi.mattia@hsr.it">Mattia zaghi</a>  <p align="center">
+<img src="photo/zaghi.jpeg" width="300" height="300" /> </p>  Mattia Zaghi obtained his BSC and MSC degree in biotechnology at Vita-Salute San Raffaele University. During his master, he joined Dr. Alessandro Sessa's group in VB Unit focusing his scientific interest in characterizing the epigenetic bases of neuro-developmental disorders such as intellectual disabilities and autism. He then completed the PhD programm in molecular medicine at Vita-Salute San Raffaele university, with a thesis about the role of SETBP1-SET protein axes in controlling chromatin structure and gene expression during neural development, in the context of rare sindrome Schinzel-Giedion.
 
-As post-doctoral fellow in the lab is continuing his investigation regarding neurodevelopmental disorders and at the same time implementing protocols for several genomics experiments carried out in the group.</p>
+During his postdoctoral fellowship, he continues to research neurodevelopmental disorders, implementing protocols for several genomic experiments, and providing bioinformatic support to group projects.</p>
 </p>
 </li>
-  <li>Federica Banfi  <p align="center">
-<img src="photo/Fede.png" width="300" height="350" /> </p> Federica Banfi is post-doc in Unit of “Molecular NeuroEngineering” at the San Raffaele Scientific Institute in Milan. She received her Bachelor’s degree in Biological Sciences (2013) and Master’s degree in Molecular Biology of the Cell (2015) at the University of Milan. She obtained her Ph.D in Molecular Medicine (Neuroscience curriculum) in 2020 at Vita-Salute San Raffaele University under the supervision of Dr. Alessandro Sessa, focusing on understanding the roles of SETBP1 in brain development and Schinzel-Giedion syndrome. She gained expertise in in vitro neurodevelopmental disease modelling using induced pluripotent stem cells (iPSc) and their differentiation to neuronal lineage and 3D cerebral organoids. </p>
+  <li><a href="banfi.federica@hsr.it">Federica Banfi</a> <p align="center">
+<img src="photo/Fede.png" width="300" height="350" /> </p> Federica Banfi works as a postdoc at San Raffaele Scientific Institute in Milan in the stem cell and neurogenesis unit. She received her Bachelor's degree in Biological Sciences (2013) and her Master's degree in Molecular Biology of the Cell (2015) from the University of Milan. Under the supervision of Dr. Alessandro Sessa, she completed her Ph.D. in Molecular Medicine (Neuroscience curriculum) at Vita-Salute San Raffaele University in 2020, focusing on the role of SETBP1 in brain development and the Schinzel-Giedion syndrome. Overall, she gained expertise in neurodevelopmental disease in vitro modeling, using induced pluripotent stem cells (iPSC) and their differentiation to neuronal lineage and 3D cerebral organoids. </p>
 </p> 
   </li>
-  <li>Edoardo Bellini </li>
+  <li><a href="https://research.hsr.it/en/centers/omics-sciences/bioinformatics/edoardo-bellini.html">Edoardo Bellini</a>  <p align="center">
+<img src="photo/edo.png" width="300" height="350" /> </p> </li> </p> Edoardo Bellini is a computational biologist and Bioinformatician working on basic research in Vania Broccoli’s Lab, and in the Bioinformatics Core of the OSR Center for Omics Sciences. His work is focused on all NGS data type coming from neurodegenerative disease models. He earned a Master Degree in Biology in 2018 at the University of Milano Bicocca and a Master in Bioinformatics and Functional Genomics in 2020 at University of Milan and INGM. He has gained previous research experiences at the CNR-Institute of Biomedical Technology analysing neurodegeneration data from LC-MS and Mud-PIT based proteomic technologies coupled to PPI network analysis to extract potentially novel biomarkers of diseases. </p>
+  </li>
+  <li> <a href="https://research.hsr.it/en/divisions/neuroscience/stem-cells-and-neurogenesis/alessandro-sessa.html">Raquel Moll Diaz</a> <p align="center">
+<img src="photo/raquel.png" width="300" height="350" /> </p> </li> </p> Raquel Moll Diaz is a computational biologist and Bioinformatician working on basic research in Vania Broccoli’s Lab, and in the Bioinformatics Core of the OSR Center for Omics Sciences. His work is focused on all NGS data type coming from neurodegenerative disease models. He earned a Master Degree in Biology in 2018 at the University of Milano Bicocca and a Master in Bioinformatics and Functional Genomics in 2020 at University of Milan and INGM. He has gained previous research experiences at the CNR-Institute of Biomedical Technology analysing neurodegeneration data from LC-MS and Mud-PIT based proteomic technologies coupled to PPI network analysis to extract potentially novel biomarkers of diseases. 
+</p> 
+</li>
+  </li>
+  <li> <a href="https://research.hsr.it/en/divisions/neuroscience/stem-cells-and-neurogenesis/alessandro-sessa.html">Linda Bossini </a> <p align="center">
+<img src="photo/linda.png" width="300" height="350" /> </p> </li> 
+</p> Linda Bossini 
+</p>  
+</li>
+  </li>
+  <li> <a href="https://research.hsr.it/en/divisions/neuroscience/stem-cells-and-neurogenesis/alessandro-sessa.html">Silvia Ferretti </a> <p align="center">
+<img src="photo/linda.png" width="300" height="350" /> </p> </li> 
+</p> Silvia Ferretti 
+</p>  
+</li>
   </ul>
 
 
