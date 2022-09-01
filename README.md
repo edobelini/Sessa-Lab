@@ -57,9 +57,7 @@ Alessandro is within the group since 2005. Under Vania’s supervision, he obtai
 </p>
 </li>
   <li><a href="zaghi.mattia@hsr.it">Mattia zaghi</a>  <p align="center">
-<img src="photo/zaghi.jpeg" width="300" height="300" /> </p>  Mattia Zaghi obtained his BSC and MSC degree in biotechnology at Vita-Salute San Raffaele University. During his master, he joined Dr. Alessandro Sessa's group in VB Unit focusing his scientific interest in characterizing the epigenetic bases of neuro-developmental disorders such as intellectual disabilities and autism. He then completed the PhD programm in molecular medicine at Vita-Salute San Raffaele university, with a thesis about the role of SETBP1-SET protein axes in controlling chromatin structure and gene expression during neural development, in the context of rare sindrome Schinzel-Giedion.
-
-During his postdoctoral fellowship, he continues to research neurodevelopmental disorders, implementing protocols for several genomic experiments, and providing bioinformatic support to group projects.</p>
+<img src="photo/zaghi.jpeg" width="300" height="300" /> </p>  Mattia Zaghi obtained his BSC and MSC degree in biotechnology at Vita-Salute San Raffaele University. During his master, he joined Dr. Alessandro Sessa's group in VB Unit focusing his scientific interest in characterizing the epigenetic bases of neuro-developmental disorders such as intellectual disabilities and autism. He then completed the PhD programm in molecular medicine at Vita-Salute San Raffaele university, with a thesis about the role of SETBP1-SET protein axes in controlling chromatin structure and gene expression during neural development, in the context of rare sindrome Schinzel-Giedion. During his postdoctoral fellowship, he continues to research neurodevelopmental disorders, implementing protocols for several genomic experiments, and providing bioinformatic support to group projects.</p>
 </p>
 </li>
   <li><a href="banfi.federica@hsr.it">Federica Banfi</a> <p align="center">
