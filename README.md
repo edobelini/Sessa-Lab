@@ -35,6 +35,9 @@
     <li>
       <a href="#scripts">Scripts</a>
     </li>
+    <li>
+      <a href="#publications">Scripts</a>
+    </li>
     <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
@@ -44,7 +47,8 @@
 <!-- ABOUT THE LAB -->
 ## About The Lab
 
-Our lab has a strong interest in developing novel technologies in stem cells, genetic cell reprogramming and CRISPR/Cas9 gene editing for better modeling and treating neurological disorders. Patient’s derived iPS cells (iPSCs) offer a superior cellular model to recapitulate the key pathophysiological defects underlying the disease. In addition, CRISPR/Cas9 gene-editing provides a faster and efficient system to prove the direct association between a gene mutation and a specific cellular trait. The group has established numerous strategies for direct cell reprogramming to generate induced neuronal and glial cells for accelerating cellular modeling of human disorders. Moreover, we have established iPSCs from patients suffering from various diseases including Dravet, Rett and ASD syndromes, NBIA and Parkinson’s disease. Therefore, CRISPR/Cas9 gene editing is a crucial tool in the group to generate isogenic control iPSCs or to introduce targeted gene mutations. Lately, we have conceived and validated new approaches for correcting mutated genes or modulating their expression by CRISPR technology both, in vitro and in vivo. Moreover, we are investing in the development of new AAVs variants that combine high targeting efficiency, tissue spreading, and safety to deliver these tools into the brain and develop strategies for in vivo gene therapy.
+The main focus of our team is characterizing the molecular causes of Neurodevelopmental Disorders such as Autsim Spectrum Disorders and Intellectual disabilities among others. We believe that investigating the causes of these pathologies is on the one hand essential to try to improve the poor quality of life the patients involved. On the other hand is an interesting way to help us to understand the specific function of several molecular involeved in this complex process. We have extensive experience in generating and/or characterzied several mouse and Induced Pluripotent Stem Cells derived models of NDDs that we used to described the function, and associated pathological mechanisms, of several genes. To characterize these models we use a multilayer approach that includes biochemistry, cytochemistry, genomics, electrophisiology and behavioural studies. 
+Moreover we are exploting our experience in development and epigenetics to investigate possible therapeutic approaches for conventional therapy resistent tumors such as GBM.
 
 <!-- people -->
 ## People
@@ -151,6 +155,10 @@ Lane,Sample_ID,Sample_Name,Sample_Plate,Sample_Well,I7_Index_ID,index,I5_Index_I
 <!-- SCRIPTS -->
 ## Scripts
 In scripts folder are present stand alone script used generally to perform downstream analisys like scRNA-seq clustering, Bulk RNA-seq, or custom plot.
+
+
+<!-- PUBLICATIONS -->
+## Publications
 
 <!-- CONTACT -->
 ## Contacts
