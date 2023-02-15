@@ -587,9 +587,25 @@ pie + scale_fill_manual(values=c("yellow","orange","red","brown"))+
 ggsave("SETBP1_epigenomics/pipeline/plots/cluster3_in_NPC_D868_quartile_top10K_venn.png", plot = last_plot(), device = NULL, path = NULL,
        scale = 1, width = 80, height = 75, units = "mm", dpi = 300, limitsize = TRUE)  
 
+#Statistical significance calculation of Cluster 3 distribution in different quartiles
+
+# Load the library 'stats'
+library(stats)
+
+# Create the vector of proportions for the 4 different categories
+proportions <- c(2630,16544,18356,22672)
+
+# Define the reference proportion, which is the expected proportion of observations in each category
+ref_prop <- c(30360,30360,30360,30360)
+
+#Calculate the actual proportions using proportion test function in R
+sink("test_regions.txt")
+prop.test(proportions,ref_prop, correct = T)
+sink()
 
 
-#Extended data Fig.2 a violin plot ATAC in NPCs D868D peaks 
+
+#Supplementary Fig.2 a (former Extended data Fig.2a in Preprint version) violin plot ATAC in NPCs D868D peaks 
 
 
 #load Open Chromatin SGS summary
@@ -675,7 +691,7 @@ ggsave("SETBP1_epigenomics/pipeline/plots/Violin_plot_ATAC_NPC_D868_I871_Ctrl_pe
        scale = 1, width = 120, height = 115, units = "mm", dpi = 300, limitsize = TRUE)  
 
 
-#Extended data Fig.2 b c d  Genomic distribution of ATAC cluters peaks
+#Supplementary Fig.2 b,c,d (former Extended data Fig.2 b,c,d in the Preprint version)  Genomic distribution of ATAC cluters peaks
 
 #NPCs SETV5
 
@@ -1058,11 +1074,14 @@ ggsave("Setbp1_Gdrive/zaghi_upload/setbp1/Regions/Heatmap_clusters/Zebrafish_GFP
        scale = 1, width = 100, height = 75, units = "mm", dpi = 300, limitsize = TRUE)
 
 
-#Extended Data Fig.2 e Chromatin state annotation NPCs D868D ATAC clusters
+# Supplmentary Fig.3 a (former Extended Data Fig.2 e in the Preprint version) Supplmentary Fig.3 b added in the revision process Chromatin state annotation NPCs D868D ATAC clusters
+
+#Load cluster3 Peaks
 
 NPC_cluster3 <- read_bed("Setbp1_Gdrive/bench/zaghi/setbp1/Regions/Heatmap_clusters/NPC_D868D_cluster3.bed")
 
 
+#Load Encode data
 
 files <- list.files("Share_HSR/Ric.Broccoli/zaghi.mattia/SETBP1_epigenomics/Encode_annotation/Hg38/", pattern = "\\.bed", full.names = T)
 encode <-  lapply(files, read_delim, delim="\t", skip = 1, col_names = F) 
@@ -1071,34 +1090,102 @@ names(encode) <- str_split_fixed(as.character(list.files("Share_HSR/Ric.Broccoli
                                             pattern = "\\.bed", full.names = F)), pattern = "_", 5)[,1]
 
 
+state <- c("1_TssA","2_PromU","3_PromD1","4_PromD2","5_Tx5'","6_Tx","7_Tx3'",
+           "8_TxWk","9_TxReg","10_TxEnh5'","11_TxEnh3'","12_TxEnhW","13_EnhA1",
+           "14_EnhA2","15_EnhAF","16_EnhW1","17_EnhW2","18_EnhAc","19_DNase",
+           "20_ZNF/Rpts","21_Het","22_PromP","23_PromBiv","24_ReprPC","25_Quies")
+
 
 over_region <- list()
 results <- list()
+fold <- list()
+res <- data.frame(P_value=numeric(0),Fold=character(0),Var1=character(0),Tissue=character(0))
+
+#Calculate the overlap between Encode chrommHMM annotation for all tissues and Cluters3 peaks
 
 for (i in 1:length(encode)) {
-   join <- join_overlap_inner(NPC_cluster3, encode[[i]] ) %>% 
+  for (x in 1:length(state)) {
+   join <- join_overlap_inner(NPC_cluster3, makeGRangesFromDataFrame(encode[[i]] %>% dplyr::rename(chr=1,start=2,end=3),keep.extra.columns = T)) %>% 
     as.data.frame()
   over_region[[i]] <- join
   names(over_region)[i] <- names(encode)[i]
-  
   join_freq <- data.frame(table(join$X4))
-  join_freq$percentage <- prop.table(join_freq$Freq)*100
+  join_freq$Percentage <- prop.table(join_freq$Freq)*100
   join_freq$condition <- paste(names(encode)[i])
+  
+  M <- encode[[i]] 
+  
+  reference_set <- M$X4
+  
+  
+  M <- length(reference_set)
+  
+  n <- join %>% dplyr::filter(X4==c(paste(state[x],sep=""))) 
+  
+  study_set <- n$X4
+  
+  n <- length(study_set)
+  
+  k <- length(study_set[study_set %in% reference_set])
+  
+  #total feature in study set
+  
+  q <- length(join$X4)
+  
+  #total of specific feature in reference
+  
+  feature_in_ref <- encode[[i]] %>% dplyr::filter(X4==c(paste(state[x],sep="")))
+  
+  p <- length(feature_in_ref$X4)
+  
+  # calculate the p-value using the hypergeometric test
+  p <- phyper(k - 1, M, n, n, lower.tail = FALSE)
+  
+  # calculate the fold enrichment
+  fold_enrichment <- log10(((n/q)/(p/M)))
+  
+
+  #data frame results
+  
+  res <- rbind.data.frame(res, data.frame(P_value=p,Fold=fold_enrichment,Var1=paste(state[x],sep=""),Tissue=paste(names(encode[i]),sep="")))
+  
+  fold[[i]] <-  res
+  names(fold)[i] <-  names(encode)[i]
+  join_freq$cluster <- "Cluster3"
   results[[i]] <- join_freq
   names(results)[i] <-  names(encode)[i]
+  }
 }
 
+#Create a Data frame with results 
+
 prova <- bind_rows(results, .id = "condition") 
+
+res <- res %>% dplyr::rename(condition=4)
+
+prova$`-log10 P-value` <- -log10(prova$P_value)
+
+prova$Fold[is.infinite(prova$Fold)] <- 100
+prova$`-log10 P-value`[is.infinite(prova$`-log10 P-value`)] <- 100
 
 
 prova <- filter(prova, prova$condition %in% c("E007", "E009", "E053", "E081", "E073")) %>% 
   dplyr::rename(Code=4)
 
+metadata <- read.delim("~/Share_HSR/Ric.Broccoli/zaghi.mattia/SETBP1_epigenomics/Encode_annotation/Hg38/metadata.txt", header=FALSE) %>% 
+  dplyr::rename(Code=1,sample=2)
+
 prova <- inner_join(prova, metadata)
+
+write.xlsx(prova,"SETBP1_epigenomics/pipeline/tables/Cluster_3_encode_Fold.xlsx")
+
+#Annotate each chromatin state with the correct color code for in the right order
 
 prova$colour <- c("#FF0000","#C2E105","#C2E105","#FFC34D","#FFC34D","#FFC34D","#FFFF00","#FFFF00","#FFFF00","#FFFF66",
                          "#FF4500","#66CDAA","#FF4500","#8A91D0","#E6B8B7","#7030A0","#808080","gray90", "#FF4500","#FF4500",
                          "#008000", "#008000","#008000","#009600", "#C2E105")
+
+#Order chromatin states
 
 prova$Var1 <- factor(prova$Var1, levels = c("1_TssA","2_PromU","3_PromD1",
                                             "4_PromD2","5_Tx5'","6_Tx",
@@ -1109,6 +1196,8 @@ prova$Var1 <- factor(prova$Var1, levels = c("1_TssA","2_PromU","3_PromD1",
                                                           "19_DNase","20_ZNF/Rpts","21_Het",
                                                           "22_PromP","23_PromBiv","24_ReprPC",
                                                           "25_Quies"))
+
+#Barplot of enrichment percentage 
 
 bp <- ggplot(prova, aes(x=Descritpion, y=percentage, fill=Var1))+
   geom_bar( stat="identity",width=0.5, color="white")+
@@ -1146,121 +1235,199 @@ bp
 ggsave("SETBP1_epigenomics/pipeline/plots/Cluster_3_encode.png", plot = last_plot(), device = NULL, path = NULL,
        scale = 1, width = 700, height = 305, units = "mm", dpi = 300, limitsize = TRUE) 
 
-wgEncodeRegTfbsClustered <- read_tsv("Share_HSR/Ric.Broccoli/zaghi.mattia/SETBP1_epigenomics/Encode_annotation/Hg38/wgEncodeRegTfbsClusteredV3_hg38.bed") %>% 
-  dplyr::rename(chr=1,
-                start=2,
-                end=3,
-                CHIP=4)
+#Plot chromatin states statistical signficance and fold enrichment 
 
-CHIP <- as.data.frame(table(wgEncodeRegTfbsClustered$CHIP))
+p <- prova %>%
+  ggplot() +
+  scale_size(range = c(3, 8))+
+  geom_point(
+    aes(x=sample, y=reorder(Var1, `-log10 P-value`), size=Fold, color=`-log10 P-value`))+
+  scale_color_gradient2(low = "grey70", high = "#003300", mid = "forestgreen", midpoint = 25)  +
+  theme(plot.title = element_text(color="black", size=26, face="bold.italic"),
+        axis.text.x = element_text(face = "bold", color = "black", size=20, hjust =1),
+        axis.title.x = element_text(face = "bold", color = "black", size = 0),
+        axis.text.y = element_text(angle = 0, face = "bold", color = "black", size=20),
+        axis.title.y = element_text(face = "bold", color = "black", size = 0),
+        legend.text = element_text(color = "black", size = 20),
+        legend.title = element_text(face = "bold", color = "black", size = 20),
+        legend.position="left",
+        panel.background = element_rect(fill = "white",colour = "white", size = 1, linetype = "solid"))+
+  ggtitle("Cluster 3")
 
-CHIP <- as.character(CHIP$Var1)
-
-NPC_cluster3 <- read_bed("Setbp1_Gdrive/zaghi_upload/setbp1/Regions/Heatmap_clusters/NPC_D868D_cluster3.bed")
-
-pt_res <- list()
-
-ENCODE <- read_tsv("Share_HSR/Ric.Broccoli/zaghi.mattia/SETBP1_epigenomics/Encode_annotation/Hg38/wgEncodeRegTfbsClusteredV3_hg38.bed") %>% 
-  dplyr::rename(chr=1,
-                start=2,
-                end=3,
-                CHIP=4)
-
-CHIP <- as.data.frame(table(ENCODE$CHIP))
-
-CHIP <- as.character(CHIP$Var1)
-
-genome <- filterChromosomes(getGenome("hg38")) 
-genome=genome
-
-for (i in 1:length(CHIP)) {
-  ENCODE_F <- ENCODE %>% 
-    dplyr::filter(CHIP==c((paste("",CHIP[i],sep = ""))))%>% 
-    makeGRangesFromDataFrame(keep.extra.columns = T)
-  
-pt <- overlapPermTest(A=NPC_cluster3, B=ENCODE_F, force.parallel=T, min.parallel=10,ntimes=10000, genome=genome)
-  pt_res[[i]] <- data.frame(CHIP_NAME=paste("",CHIP[i],sep = ""),
-                            z_score=pt$numOverlaps$zscore,
-                            p_val=pt$numOverlaps$pval)
-  names(pt_res)[i] <- paste("",CHIP[i],sep = "")
-  print(paste("Making permutation of sample", "",CHIP[i],sep = ""))
-}
+png("SETBP1_epigenomics/pipeline/plots/Cluster_3_encode_Fold.png", res = 330, width = 20, height = 30, units = "cm")
+p
+dev.off()
 
 
-pt_res_df <- bind_rows(pt_res, .id = "CHIP_NAME") 
-plot(pt_res_df$z_score, pt_res_df$p_val)
+#Load cluster2 Peaks
 
-NPC_cluster2 <- read_bed("Setbp1_Gdrive/zaghi_upload/setbp1/Regions/Heatmap_clusters/NPC_D868D_cluster2.bed")
+NPC_cluster2 <- read_tsv("Share_HSR/Ric.Broccoli/zaghi.mattia/SETBP1_epigenomics/ATAC/pipeline/Compute_Matrix/Peak_centered/Regions/ATAC_in_NPCD868D_ATAC_merge_50_median_Compute_Matrix_3_heatmap.bed")%>% 
+  dplyr::filter(deepTools_group==c("cluster_2"))%>% 
+  dplyr::rename(chr=1, start=2, end=3) %>% 
+  makeGRangesFromDataFrame()
+
 
 over_region <- list()
 results <- list()
+fold <- list()
+res <- data.frame(P_value=numeric(0),Fold=character(0),Var1=character(0),Tissue=character(0))
+
+#Calculate the overlap between Encode chrommHMM annotation for all tissues and Cluters3 peaks
 
 for (i in 1:length(encode)) {
-  join <- join_overlap_inner(NPC_cluster2, encode[[i]]) %>% 
+  for (x in 1:length(state)) {
+   join <- join_overlap_inner(NPC_cluster3, makeGRangesFromDataFrame(encode[[i]] %>% dplyr::rename(chr=1,start=2,end=3),keep.extra.columns = T)) %>% 
     as.data.frame()
   over_region[[i]] <- join
   names(over_region)[i] <- names(encode)[i]
-  
   join_freq <- data.frame(table(join$X4))
-  join_freq$percentage <- prop.table(join_freq$Freq)*100
+  join_freq$Percentage <- prop.table(join_freq$Freq)*100
   join_freq$condition <- paste(names(encode)[i])
+  
+  M <- encode[[i]] 
+  
+  reference_set <- M$X4
+  
+  
+  M <- length(reference_set)
+  
+  n <- join %>% dplyr::filter(X4==c(paste(state[x],sep=""))) 
+  
+  study_set <- n$X4
+  
+  n <- length(study_set)
+  
+  k <- length(study_set[study_set %in% reference_set])
+  
+  #total feature in study set
+  
+  q <- length(join$X4)
+  
+  #total of specific feature in reference
+  
+  feature_in_ref <- encode[[i]] %>% dplyr::filter(X4==c(paste(state[x],sep="")))
+  
+  p <- length(feature_in_ref$X4)
+  
+  # calculate the p-value using the hypergeometric test
+  p <- phyper(k - 1, M, n, n, lower.tail = FALSE)
+  
+  # calculate the fold enrichment
+  fold_enrichment <- log10(((n/q)/(p/M)))
+  
+
+  #data frame results
+  
+  res <- rbind.data.frame(res, data.frame(P_value=p,Fold=fold_enrichment,Var1=paste(state[x],sep=""),Tissue=paste(names(encode[i]),sep="")))
+  
+  fold[[i]] <-  res
+  names(fold)[i] <-  names(encode)[i]
+  join_freq$cluster <- "Cluster3"
   results[[i]] <- join_freq
   names(results)[i] <-  names(encode)[i]
+  }
 }
 
+#Create a Data frame with results 
+
 prova <- bind_rows(results, .id = "condition") 
+
+res <- res %>% dplyr::rename(condition=4)
+
+prova$`-log10 P-value` <- -log10(prova$P_value)
+
+prova$Fold[is.infinite(prova$Fold)] <- 100
+prova$`-log10 P-value`[is.infinite(prova$`-log10 P-value`)] <- 100
 
 
 prova <- filter(prova, prova$condition %in% c("E007", "E009", "E053", "E081", "E073")) %>% 
   dplyr::rename(Code=4)
 
+metadata <- read.delim("~/Share_HSR/Ric.Broccoli/zaghi.mattia/SETBP1_epigenomics/Encode_annotation/Hg38/metadata.txt", header=FALSE) %>% 
+  dplyr::rename(Code=1,sample=2)
+
 prova <- inner_join(prova, metadata)
+
+write.xlsx(prova,"SETBP1_epigenomics/pipeline/tables/Cluster_2_encode_Fold.xlsx")
+
+#Annotate each chromatin state with the correct color code for in the right order
+
+prova$colour <- c("#FF0000","#C2E105","#C2E105","#FFC34D","#FFC34D","#FFC34D","#FFFF00","#FFFF00","#FFFF00","#FFFF66",
+                         "#FF4500","#66CDAA","#FF4500","#8A91D0","#E6B8B7","#7030A0","#808080","gray90", "#FF4500","#FF4500",
+                         "#008000", "#008000","#008000","#009600", "#C2E105")
+
+#Order chromatin states
 
 prova$Var1 <- factor(prova$Var1, levels = c("1_TssA","2_PromU","3_PromD1",
                                             "4_PromD2","5_Tx5'","6_Tx",
-                                            "7_Tx3'","8_TxWk","9_TxReg",
-                                            "10_TxEnh5'","11_TxEnh3'","12_TxEnhW",
-                                            "13_EnhA1","14_EnhA2","15_EnhAF",
-                                            "16_EnhW1","17_EnhW2","18_EnhAc",
-                                            "19_DNase","20_ZNF/Rpts","21_Het",
-                                            "22_PromP","23_PromBiv","24_ReprPC",
-                                            "25_Quies"))
+                                                          "7_Tx3'","8_TxWk","9_TxReg",
+                                                          "10_TxEnh5'","11_TxEnh3'","12_TxEnhW",
+                                                          "13_EnhA1","14_EnhA2","15_EnhAF",
+                                                          "16_EnhW1","17_EnhW2","18_EnhAc",
+                                                          "19_DNase","20_ZNF/Rpts","21_Het",
+                                                          "22_PromP","23_PromBiv","24_ReprPC",
+                                                          "25_Quies"))
 
+#Barplot of enrichment percentage 
 
 bp <- ggplot(prova, aes(x=Descritpion, y=percentage, fill=Var1))+
   geom_bar( stat="identity",width=0.5, color="white")+
-  scale_fill_manual(values=c("#FF0000","#66CDAA","#FF4500",
-                             "#FF4500","#008000","#008000",
-                             "#008000","#009600","#C2E105",
-                             "#C2E105","#C2E105","#FFC34D",
-                             "#FFC34D","#FFC34D","#FFFF00",
-                             "#FFFF00","#FFFF00","#FFFF66",
-                             "#FF4500","#FF4500","#8A91D0",
-                             "#E6B8B7","#7030A0","#808080",
-                             "gray90"))+
-  scale_color_manual(values=c("#FF0000","#66CDAA","#FF4500",
-                              "#FF4500","#008000","#008000",
-                              "#008000","#009600","#C2E105",
-                              "#C2E105","#C2E105","#FFC34D",
-                              "#FFC34D","#FFC34D","#FFFF00",
-                              "#FFFF00","#FFFF00","#FFFF66",
-                              "#FF4500","#FF4500","#8A91D0",
-                              "#E6B8B7","#7030A0","#808080",
-                              "gray90")) +
+  scale_fill_manual( values=c("#FF0000","#66CDAA","#FF4500",
+                       "#FF4500","#008000","#008000",
+                       "#008000","#009600","#C2E105",
+                       "#C2E105","#C2E105","#FFC34D",
+                       "#FFC34D","#FFC34D","#FFFF00",
+                       "#FFFF00","#FFFF00","#FFFF66",
+                       "#FF4500","#FF4500","#8A91D0",
+                       "#E6B8B7","#7030A0","#808080",
+                       "gray90"))+
+  scale_color_manual( values=c("#FF0000","#66CDAA","#FF4500",
+                        "#FF4500","#008000","#008000",
+                        "#008000","#009600","#C2E105",
+                        "#C2E105","#C2E105","#FFC34D",
+                        "#FFC34D","#FFC34D","#FFFF00",
+                        "#FFFF00","#FFFF00","#FFFF66",
+                        "#FF4500","#FF4500","#8A91D0",
+                        "#E6B8B7","#7030A0","#808080",
+                        "gray90")) +
   xlab("")+
   ylab("percentage")+
   coord_flip()+
   guides(fill=guide_legend(title="chromHMM state")) +
   theme_classic()+ theme(axis.text.x = element_text(size = 34,family = "Arial"),
-                         axis.text.y = element_text(size = 34,family = "Arial"),
-                         axis.title.x = element_text(size = 34,family = "Arial"),
-                         axis.line = element_line(size = 2),
-                         legend.text=element_text(size = 34,family = "Arial"),
-                         legend.title = element_text(size = 34,family = "Arial")) + theme(legend.position = "none")
+          axis.text.y = element_text(size = 34,family = "Arial"),
+          axis.title.x = element_text(size = 34,family = "Arial"),
+          axis.line = element_line(size = 2),
+          legend.text=element_text(size = 34,family = "Arial"),
+          legend.title = element_text(size = 34,family = "Arial")) + theme(legend.position = "none")
+
 bp 
 
 ggsave("SETBP1_epigenomics/pipeline/plots/Cluster_2_encode.png", plot = last_plot(), device = NULL, path = NULL,
        scale = 1, width = 700, height = 305, units = "mm", dpi = 300, limitsize = TRUE) 
+
+#Plot chromatin states statistical signficance and fold enrichment 
+
+p <- prova %>%
+  ggplot() +
+  scale_size(range = c(3, 8))+
+  geom_point(
+    aes(x=sample, y=reorder(Var1, `-log10 P-value`), size=Fold, color=`-log10 P-value`))+
+  scale_color_gradient2(low = "grey70", high = "#003300", mid = "forestgreen", midpoint = 25)  +
+  theme(plot.title = element_text(color="black", size=26, face="bold.italic"),
+        axis.text.x = element_text(face = "bold", color = "black", size=20, hjust =1),
+        axis.title.x = element_text(face = "bold", color = "black", size = 0),
+        axis.text.y = element_text(angle = 0, face = "bold", color = "black", size=20),
+        axis.title.y = element_text(face = "bold", color = "black", size = 0),
+        legend.text = element_text(color = "black", size = 20),
+        legend.title = element_text(face = "bold", color = "black", size = 20),
+        legend.position="left",
+        panel.background = element_rect(fill = "white",colour = "white", size = 1, linetype = "solid"))+
+  ggtitle("Cluster 2")
+
+png("SETBP1_epigenomics/pipeline/plots/Cluster_2_encode_Fold.png", res = 330, width = 20, height = 30, units = "cm")
+p
+dev.off() 
 
 NPC_cluster1 <- read_bed("Setbp1_Gdrive/zaghi_upload/setbp1/Regions/Heatmap_clusters/NPC_D868D_cluster1.bed")
 
