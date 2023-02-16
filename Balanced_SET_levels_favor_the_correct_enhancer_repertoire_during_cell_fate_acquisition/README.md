@@ -9,7 +9,7 @@
 </h3>
   </a>
   <p align="center">
-    Mattia Zaghi<sup>1 *</sup>, Federica Banfi<sup>1</sup>, Luca Massimino<sup>1</sup>, Monica Volpin<sup>1</sup>, Edoardo Bellini<sup>1</sup>, Simone Brusco<sup>1</sup>, Ivan Merelli<sup>1</sup>, Cristiana Barone<sup>1</sup>, Cristina Sironi<sup>1</sup>, Michela Bruni<sup>1</sup>, Linda Bossini<sup>1</sup>, Luigi Lamparelli<sup>1</sup>, Laura Pintado<sup>1</sup>, Deborah D'Aliberti<sup>1</sup>, Luca Mologni<sup>1</sup>, Gaia Colasante<sup>1</sup>, Federica Ungaro<sup>1</sup>, Francesco Ferrari<sup>1</sup>, Jean-Michel Cioni<sup>1</sup>, Emanuele Azzoni<sup>1</sup>, Rocco Piazza<sup>1</sup>, Eugenio Montini<sup>1</sup>, Vania Broccoli<sup>1</sup> and Alessandro Sessa<sup>1</sup>
+    Mattia Zaghi<sup></sup>, Federica Banfi<sup></sup>, Luca Massimino<sup></sup>, Monica Volpin<sup></sup>, Edoardo Bellini<sup></sup>, Simone Brusco<sup></sup>, Ivan Merelli<sup></sup>, Cristiana Barone<sup></sup>, Cristina Sironi<sup></sup>, Michela Bruni<sup></sup>, Linda Bossini<sup></sup>, Luigi Lamparelli<sup></sup>, Laura Pintado<sup></sup>, Deborah D'Aliberti<sup></sup>, Luca Mologni<sup></sup>, Gaia Colasante<sup></sup>, Federica Ungaro<sup></sup>, Jean-Michel Cioni<sup></sup>, Emanuele Azzoni<sup></sup>, Rocco Piazza<sup></sup>, Eugenio Montini<sup></sup>, Vania Broccoli<sup></sup> and Alessandro Sessa<sup></sup>
   </p>
 </p>
 <p align="center">
@@ -37,7 +37,13 @@
 <!-- About the paper -->
 ## About the paper
 
-In this work we described the effect of SET protein accumulation on chromatin rewiring in vitro, using Schinzel-Giedion syndrome patients IPSCs, and in vivo using Mouse and Zebrafish model. We used a multiomic approach combining ATAC-seq, ChIP-seq, Hi-C, RNA-seq and scMultiome (ATAC+RNA) to address the question on a genomic standpoint. In this page all the codes and pipelines used to analyze all data and produce the manuscript figures are deposited.
+In this work we described the effect of SET protein accumulation on chromatin rewiring in vitro, using SET overexpressing iPSCs and derived NPCs, Schinzel-Giedion syndrome patients iPSCs derived neural cells, and in vivo using Mouse and Zebrafish model. We used a multiomic approach combining ATAC-seq, ChIP-seq, Hi-C, RNA-seq and scMultiome (ATAC+RNA) to address the question on a genomic standpoint. In this page all the codes and pipelines used to analyze all data and produce the manuscript figures are deposited.
+
+Preprint version of the work is available at:
+
+https://www.biorxiv.org/content/10.1101/2022.09.12.507599v1
+
+Figures have now been updated containing the updated figures after the first round of revision process. Codes contains the reference to the old figures names int the preprint version.
 
 
 <!-- Pipelines -->
