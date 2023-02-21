@@ -610,7 +610,7 @@ png("/home/zaghi/SETBP1_epigenomics/pipeline/plots/heatmap_coregulated.png",poin
 h1
 dev.off()
 
-#Fig. Extended Data 4 a Violin plot and Venn Diagram peaks distribution in clusters 
+# Supplementary Fig.6 a (former Extended data Fig.4a in Preprint version) a Violin plot and Venn Diagram peaks distribution in clusters 
 
 Open_chromatin_all_ATAC_SGS <- read_tsv("SETBP1_epigenomics/pipeline/Peaks/multiBigwigSummary_ATAC_SETBP1_OpenChromatin_table_annotate", col_names = T) # Upload tables with peaks annotation and counts (multiBigWigSummary_annotation.sk & multiBigWigSummary_editing.R)
 
@@ -812,7 +812,7 @@ pie + scale_fill_manual(values=c("orange","salmon2","aquamarine3","cyan2","azure
 ggsave("Setbp1_Gdrive/zaghi_upload/setbp1/Regions/Heatmap_clusters/Neu_D868D_cluster3_pie.png", plot = last_plot(), device = NULL, path = NULL,
        scale = 1, width = 100, height = 75, units = "mm", dpi = 300, limitsize = TRUE)
 
-#Fig. Extended Data 4 b Violin plot and Venn Diagram peaks distribution in clusters 
+# Supplementary Fig.6 b (former Extended data Fig.4b in Preprint version) Violin plot and Venn Diagram peaks distribution in clusters 
 
 Open_chromatin_all_ATAC_SGS <- read_tsv("SETBP1_epigenomics/pipeline/Peaks/multiBigwigSummary_ATAC_SETBP1_OpenChromatin_table_annotate", col_names = T) # Upload tables with peaks annotation and counts (multiBigWigSummary_annotation.sk & multiBigWigSummary_editing.R)
 
@@ -1014,7 +1014,7 @@ ggsave("Setbp1_Gdrive/zaghi_upload/setbp1/Regions/Heatmap_clusters/dir_Neu_D868D
        scale = 1, width = 100, height = 75, units = "mm", dpi = 300, limitsize = TRUE)
 
 
-#Fig. Extended Data 4 c Subsetting differential peaks for Venn diagram 
+# Supplementary Fig.6 c (former Extended data Fig.4c in Preprint version) Subsetting differential peaks for Venn diagram 
 
 Open_chromatin_all_ATAC_SGS <- read_tsv("SETBP1_epigenomics/pipeline/Peaks/multiBigwigSummary_ATAC_SETBP1_OpenChromatin_table_annotate", col_names = T) # Upload tables with peaks annotation and counts (multiBigWigSummary_annotation.sk & multiBigWigSummary_editing.R)
 
@@ -1029,7 +1029,7 @@ ATAC_D868N_neural_development_down_HiC <- Open_chromatin_all_ATAC_SGS %>%
   dplyr::filter(Neu_D868D_down_dev==0 & Neu_D868N_down_dev==1)
 
 
-#Fig. Extended Data 4 d Heatmaps ChromVar subset of TFBS and RNA expression
+# Supplementary Fig.6 d  (former Extended data Fig.4d in Preprint version) Heatmaps ChromVar subset of TFBS and RNA expression
 
 #TFBS more accessible in Neu D868D
 
@@ -1275,7 +1275,7 @@ h2
 dev.off()
   
 
-#Fig. Extended Data 4 g Distance-Interaction frequency relation in Hi-C neurons 
+# Supplementary Fig.6 g (former Extended data Fig.4g in Preprint version) Distance-Interaction frequency relation in Hi-C neurons 
 
 #Extracting interaction frequency and distance relationship form HiC maps at 50kb resolution for chr3 
 
@@ -1337,7 +1337,7 @@ ggsave("SETBP1_epigenomics/pipeline/plots/distance_IF_Neu_CHR3.png", plot = last
        scale = 1, width = 130, height = 125, units = "mm", dpi = 300, limitsize = TRUE)
 
 
-#Fig. Extended Data 4 h contact domains number and length in Neu 
+# Supplementary Fig.6 h (former Extended data Fig.4h in Preprint version) contact domains number and length in Neu 
 
 #Compartments boundaries coordinates Neu_D868D calculation 
 
@@ -1438,7 +1438,7 @@ ggsave("SETBP1_epigenomics/pipeline/plots/Compartments_length_Neu.png", plot = l
        scale = 1, width = 150, height = 145, units = "mm", dpi = 300, limitsize = TRUE)
 
 
-#Fig. Extended Data 4 i Loop number in Neu 
+#Supplementary Fig.6 i (former Extended data Fig.4i in Preprint version) Loop number in Neu 
 
 genotype <- c("Neu D868D","Neu D868N")
 value <- c( 17399,
