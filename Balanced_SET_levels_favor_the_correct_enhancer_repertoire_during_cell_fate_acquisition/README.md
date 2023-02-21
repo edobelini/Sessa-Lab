@@ -43,7 +43,7 @@ Preprint version of the work is available at:
 
 https://www.biorxiv.org/content/10.1101/2022.09.12.507599v1
 
-Figure folder have now been updated containing the updated version of the code after the first round of revision process. Codes contains the reference to the old figures number and format in the preprint version.
+Figure folders have now been updated containing the updated version of the code after the first round of revision process. Codes contains the reference to the old figures number and format in the preprint version.
 
 
 <!-- Pipelines -->
