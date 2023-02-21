@@ -48,7 +48,7 @@ Figure folder have now been updated containing the updated version of the code a
 
 <!-- Epigenomics -->
 ## Epigenomics
-In this folder the snakemake pipelines, bash and R script used to analyzed all the epigenomic/trascriptomic data (ATAC, ChIP-seq, Hi-C, RNA-seq, scMultiome) are deposited. Within the folder are present:
+In this folder the snakemake pipelines, bash and R script used to analyzed the epigenomic/trascriptomic data from raw files to intermediate dataset (ATAC, ChIP-seq, Hi-C, RNA-seq, scMultiome), are deposited. Within the folder are present:
 
 * `.sk` files, that contain all rules sequence.
 
