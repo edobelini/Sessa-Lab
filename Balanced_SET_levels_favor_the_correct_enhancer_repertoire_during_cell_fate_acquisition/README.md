@@ -46,8 +46,8 @@ https://www.biorxiv.org/content/10.1101/2022.09.12.507599v1
 Figure folder have now been updated containing the updated version of the code after the first round of revision process. Codes contains the reference to the old figures number and format in the preprint version.
 
 
-<!-- Pipelines -->
-## Pipelines
+<!-- Epigenomics -->
+## Epigenomics
 In this folder the snakemake pipelines, bash and R script used to analyzed all the epigenomic/trascriptomic data (ATAC, ChIP-seq, Hi-C, RNA-seq, scMultiome) are deposited. Within the folder are present:
 
 * `.sk` files, that contain all rules sequence.
