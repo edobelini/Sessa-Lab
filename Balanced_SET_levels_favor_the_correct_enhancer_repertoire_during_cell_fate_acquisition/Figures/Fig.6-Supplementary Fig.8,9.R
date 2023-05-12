@@ -16,7 +16,7 @@ options(future.globals.maxSize = 8000 * 1024^2)
 
 setwd("./")
 
-#Fig. 6 a UMAP plot of Gene Expression and chromatin accessibility
+#Fig. 6 e UMAP plot of Gene Expression and chromatin accessibility
 
 
 Multiome <- readRDS("/home/zaghi/Documents/scRNA_Multiome/MultiOme.rds") #load single cell gene expression object from Seurat
@@ -64,6 +64,7 @@ Multihome[["ATAC"]]@cell.embeddings[,2] <- barcodes_scATAC[,2]
 
 #plot UMAP with clusters and samples for ATAC & RNA
 
+#ATAC
 colors <- kelly(11)
 colors[1] <- "brown" 
 p1 = DimPlot(Multihome, reduction = "ATAC", label = F, pt.size = 0.3, cols = colors,group.by="Label_cluster") + 
@@ -99,6 +100,7 @@ ggsave("SETBP1_epigenomics/pipeline/plots/UMAP_no_labels_ATAC.png", plot = last_
            panel.background = element_rect(fill = "white",colour = "black", size = 1, linetype = "solid")) +
     labs(x = "UMAP 1", y = "UMAP 2")
 
+#RNA
 colors <- kelly(11)
 colors[1] <- "brown"
   p1 = DimPlot(Multihome, reduction = "umap", label = F, pt.size = 0.3, cols = colors,group.by="Label_cluster") + 
@@ -136,7 +138,96 @@ colors[1] <- "brown"
     labs(x = "UMAP 1", y = "UMAP 2")
   
 
+#Fig. 6 g Heatmap of chromatin accessibility along pseudotime 
 
+#Select cells containing only ctrl or mutant cells to perform the analysis by genotype
+
+idxPass <- which(scATAC_Multiome$Sample %in% c("embryo_ctrl","P2_ctrl"))
+cellsPass <- scATAC_Multiome$cellNames[idxPass]
+scATAC_Multiome_ctrl <- scATAC_Multiome[cellsPass, ]
+
+idxPass <- which(scATAC_Multiome$Sample %in% c("embryo_mut","P2_mut"))
+cellsPass <- scATAC_Multiome$cellNames[idxPass]
+scATAC_Multiome_mut <- scATAC_Multiome[cellsPass, ]
+
+#add to each genotype specific object the specific peaks associated with the specific clusters analyzed 
+
+peaks1 <- read_tsv("Documents/scATAC_Multiome_Bam/scATAC_multiome_ArchR_correct/PeakCalls/clusters/da_edo/ctrl/AP_RGC") 
+
+peaks2 <- read_tsv("Documents/scATAC_Multiome_Bam/scATAC_multiome_ArchR_correct/PeakCalls/clusters/da_edo/ctrl/INP") 
+
+peaks3<- read_tsv("Documents/scATAC_Multiome_Bam/scATAC_multiome_ArchR_correct/PeakCalls/clusters/da_edo/ctrl/ExN_DL") 
+
+peaks4 <- read_tsv("Documents/scATAC_Multiome_Bam/scATAC_multiome_ArchR_correct/PeakCalls/clusters/da_edo/mut/AP_RGC") 
+
+peaks5 <- read_tsv("Documents/scATAC_Multiome_Bam/scATAC_multiome_ArchR_correct/PeakCalls/clusters/da_edo/mut/INP") 
+
+peaks6 <- read_tsv("Documents/scATAC_Multiome_Bam/scATAC_multiome_ArchR_correct/PeakCalls/clusters/da_edo/mut/ExN_DL") 
+
+peak <- rbind.data.frame(peaks1,peaks2,peaks3,
+                         peaks4,peaks5,peaks6) %>% 
+  makeGRangesFromDataFrame() %>% 
+  IRanges::reduce()
+
+scATAC_Multiome_ctrl <- addPeakSet(
+  ArchRProj =  scATAC_Multiome_ctrl,
+  peakSet = peak,
+  genomeAnnotation = getGenomeAnnotation(scATAC_Multiome),
+  force = TRUE
+)
+
+scATAC_Multiome_ctrl <- addPeakMatrix(scATAC_Multiome_ctrl, force=T)
+
+peaks1 <- read_tsv("Documents/scATAC_Multiome_Bam/scATAC_multiome_ArchR_correct/PeakCalls/clusters/da_edo/ctrl/AP_RGC") 
+
+peaks2 <- read_tsv("Documents/scATAC_Multiome_Bam/scATAC_multiome_ArchR_correct/PeakCalls/clusters/da_edo/ctrl/INP") 
+
+peaks3<- read_tsv("Documents/scATAC_Multiome_Bam/scATAC_multiome_ArchR_correct/PeakCalls/clusters/da_edo/ctrl/ExN_UL") 
+
+peaks4 <- read_tsv("Documents/scATAC_Multiome_Bam/scATAC_multiome_ArchR_correct/PeakCalls/clusters/da_edo/mut/AP_RGC") 
+
+peaks5 <- read_tsv("Documents/scATAC_Multiome_Bam/scATAC_multiome_ArchR_correct/PeakCalls/clusters/da_edo/mut/INP") 
+
+peaks6 <- read_tsv("Documents/scATAC_Multiome_Bam/scATAC_multiome_ArchR_correct/PeakCalls/clusters/da_edo/mut/ExN_UL") 
+
+
+
+peak <- rbind.data.frame(peaks1,peaks2,peaks3,
+                         peaks4,peaks5,peaks6) %>% 
+  makeGRangesFromDataFrame() %>% 
+  IRanges::reduce()
+
+scATAC_Multiome_mut <- addPeakSet(
+  ArchRProj =  scATAC_Multiome_mut,
+  peakSet = peak,
+  genomeAnnotation = getGenomeAnnotation(scATAC_Multiome),
+  force = TRUE
+)
+
+scATAC_Multiome_mut <- addPeakMatrix(scATAC_Multiome_mut, force=T)
+
+#Calculate pseudotime relative to the trajectory of interest
+
+trajectory_neu <- c("AP_RGC", "INP", "ExN_DL")
+
+scATAC_Multiome_ctrl <- addTrajectory(
+  ArchRProj = scATAC_Multiome_ctrl, #add pseudotime trajecotry of interest to ArchR object
+  name = "Neurons", 
+  groupBy = "Clusters",
+  trajectory = trajectory_neu, 
+  embedding = "UMAP_2", 
+  force = TRUE,
+  reducedDims =NULL
+)
+
+scATAC_Multiome_mut <- addTrajectory(
+  ArchRProj = scATAC_Multiome_mut, 
+  name = "Neurons", 
+  groupBy = "Clusters",
+  trajectory = trajectory_neu, 
+  embedding = "UMAP_2", 
+  force = TRUE
+)
 
 library(monocle3)
 ########Trjectories with monocle3#######
