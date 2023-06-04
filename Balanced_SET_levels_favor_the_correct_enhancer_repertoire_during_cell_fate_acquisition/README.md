@@ -45,6 +45,9 @@ https://www.biorxiv.org/content/10.1101/2022.09.12.507599v1
 
 Figure folders have now been updated containing the updated version of the code after the first round of revision process. Codes contains the reference to the old figures number and format in the preprint version.
 
+Final version of the paper is now published and available:
+
+https://www.nature.com/articles/s41467-023-39043-x
 
 <!-- Epigenomics -->
 ## Epigenomics
