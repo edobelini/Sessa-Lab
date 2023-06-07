@@ -235,19 +235,74 @@ scATAC_Multiome_mut <- addTrajectory(
 trajPM_ctrl  <- getTrajectory(ArchRProj = scATAC_Multiome_ctrl, name = "Neurons", useMatrix = "PeakMatrix", log2Norm = TRUE) #Compute trajectory based on Peaks matrix of control cells
 
 p_trajPM_ctrl <- plotTrajectoryHeatmap(trajPM_ctrl, pal = paletteContinuous(set = "solarExtra"), returnMatrix = T)
-#plot peak matrix based on control peaks
+#plot control peak matrix based on control peaks rank 
 png("SETBP1_epigenomics/pipeline/plots/p_trajPM_ctrl.png",pointsize = 1,res=1200,height = 20,width = 20,
     units = "cm")
 p_trajPM_ctrl
 dev.off()
 
-p_trajPM_mut <- plotTrajectoryHeatmap(trajPM_mut, pal = paletteContinuous(set = "solarExtra"), returnMatrix = T)
-#plot peak matrix based on mutant peaks
-png("SETBP1_epigenomics/pipeline/plots/p_trajPM_mut.png",pointsize = 1,res=1200,height = 20,width = 20,
+p_trajPM_mut <- plotTrajectoryHeatmap(trajPM_mut, pal = paletteContinuous(set = "solarExtra"), returnMatrix = T) #Compute trajectory based on Peaks matrix of mutant cells
+
+
+# plot mutant peaks value based on control peaks pseudotime rank
+
+p_trajPM_mut <-  as.data.frame(p_trajPM_mut) %>% 
+  rownames_to_column()
+
+p_trajPM_ctrl <-  as.data.frame(p_trajPM_ctrl)%>% 
+  rownames_to_column()
+
+p_trajPM <- inner_join(p_trajPM_ctrl,p_trajPM_mut, by="rowname")
+
+p_trajPM_mut <- p_trajPM_mut[rownames(p_trajPM_ctrl),]
+
+colors <- paletteContinuous(set = "solarExtra")
+
+metadata = data.frame(pseudotime = 1:100,
+                      stringsAsFactors = T, 
+                      row.names=names(p_trajPM_ctrl))
+
+suppressMessages(library(RColorBrewer))
+suppressMessages(library("viridis"))
+
+mycolors_s <- paletteContinuous(set = "horizonExtra", n = 100); names(mycolors_s) = unique(metadata$pseudotime)
+ann_colors = list(pseudotime=mycolors_s)
+
+p1 <- pheatmap::pheatmap(p_trajPM_ctrl,cluster_rows = F,cluster_cols = F,
+                         col=colors,show_rownames = F,
+                         show_colnames = F,
+                         annotation_col = metadata,
+                         annotation_colors = ann_colors) #plot mutant peak matrix based on control peaks rank
+
+p2 <- pheatmap::pheatmap(p_trajPM_mut,cluster_rows = F,cluster_cols = F,
+                         col=colors,show_rownames = F,
+                         show_colnames = F,
+                         annotation_col = metadata,
+                         annotation_colors = ann_colors)  #plot mutant peak matrix based on mutant peaks rank
+
+png("SETBP1_epigenomics/pipeline/plots/p_trajPM_ctrl_order.png",pointsize = 1,res=1200,height = 20,width = 10,
     units = "cm")
-p_trajPM_mut
+p1
 dev.off()
 
+png("SETBP1_epigenomics/pipeline/plots/p_trajPM_mut.png",pointsize = 1,res=1200,height = 20,width = 10,
+    units = "cm")
+p2
+dev.off()
+
+#Fig. 6 h Plot Nrxn1 gene expression value across pseudotime trajectory of Neuronal development  
+
+p2 <- plotTrajectory(scATAC_Multiome_mut, trajectory = "Neurons", colorBy = "GeneExpressionMatrix", name = "Nrxn1", continuousSet = "blueYellow",embedding = "UMAP_2",addArrow = F)
+
+p2[[1]]+theme_classic()+
+  theme(axis.text.x = element_text(size = 18,family = "Arial"),
+        axis.text.y = element_text(size = 18,family = "Arial"),
+        axis.title.y = element_text(size = 18,family = "Arial"),
+        axis.title.x = element_text(size = 18,family = "Arial"))
+
+
+ggsave("SETBP1_epigenomics/pipeline/plots/trajectory_neurons_DL_mut_NRXN1_RNA.png", plot = last_plot(), device = NULL, path = NULL,
+       scale = 1, width = 90, height = 85, units = "mm", dpi = 300, limitsize = TRUE)
 
 
 
