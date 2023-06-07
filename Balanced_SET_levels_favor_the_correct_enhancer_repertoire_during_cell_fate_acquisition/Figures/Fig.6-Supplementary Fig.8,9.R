@@ -206,7 +206,7 @@ scATAC_Multiome_mut <- addPeakSet(
 
 scATAC_Multiome_mut <- addPeakMatrix(scATAC_Multiome_mut, force=T)
 
-#Calculate pseudotime relative to the trajectory of interest
+#Calculate pseudotime trajectory based on the the clusters of interest
 
 trajectory_neu <- c("AP_RGC", "INP", "ExN_DL")
 
@@ -228,6 +228,28 @@ scATAC_Multiome_mut <- addTrajectory(
   embedding = "UMAP_2", 
   force = TRUE
 )
+
+#Compute and plot Heatmaps of ATAC peaks Z-score across pseudotime 
+
+
+trajPM_ctrl  <- getTrajectory(ArchRProj = scATAC_Multiome_ctrl, name = "Neurons", useMatrix = "PeakMatrix", log2Norm = TRUE) #Compute trajectory based on Peaks matrix of control cells
+
+p_trajPM_ctrl <- plotTrajectoryHeatmap(trajPM_ctrl, pal = paletteContinuous(set = "solarExtra"), returnMatrix = T)
+#plot peak matrix based on control peaks
+png("SETBP1_epigenomics/pipeline/plots/p_trajPM_ctrl.png",pointsize = 1,res=1200,height = 20,width = 20,
+    units = "cm")
+p_trajPM_ctrl
+dev.off()
+
+p_trajPM_mut <- plotTrajectoryHeatmap(trajPM_mut, pal = paletteContinuous(set = "solarExtra"), returnMatrix = T)
+#plot peak matrix based on mutant peaks
+png("SETBP1_epigenomics/pipeline/plots/p_trajPM_mut.png",pointsize = 1,res=1200,height = 20,width = 20,
+    units = "cm")
+p_trajPM_mut
+dev.off()
+
+
+
 
 library(monocle3)
 ########Trjectories with monocle3#######
